@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --watch & nodemon app.js --watch dist --watch server",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -52,6 +52,7 @@
     "lodash": "^4.17.10",
     "mongoose": "^5.2.8",
     "mongoose-unique-validator": "^2.0.1",
+    "nodemon": "^1.18.3",
     "path": "^0.12.7",
     "protractor": "~5.3.0",
     "ts-node": "~5.0.1",
