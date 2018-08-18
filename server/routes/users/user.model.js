@@ -49,7 +49,7 @@ UserSchema
  * Validations
  */
 UserSchema.path('email')
-  .validate((value) => {
+  .validate(function(value) {
     return this.constructor.findOne({ email: value }).exec()
       .then( user => {
         if(user) {
@@ -69,17 +69,17 @@ const validatePresenceOf = function(value) {
   return value && value.length;
 }
 
-UserSchema.path('email').validate((email) => {
+UserSchema.path('email').validate(function(email) {
   return email.length;
 }, 'Email cannot be blank');
 
-UserSchema.path('password').validate((password) => {
+UserSchema.path('password').validate(function(password){
   return password.length;
 }, 'Password cannot be blank');
 /**
  * Pre-save hook for password
  */
-UserSchema.pre('save', (next) => {
+UserSchema.pre('save', function(next) {
   if (!this.isModified('password')) {
     return next();
   }
@@ -91,12 +91,12 @@ UserSchema.pre('save', (next) => {
   }
 
   // Make Salt with callback
-  this.makeSalt((saltErr, salt) => {
+  this.makeSalt(function(saltErr, salt) {
     if (saltErr) {
       return next(saltErr);
     }
     this.salt = salt;
-    this.encryptPassword(this.password, (encryptErr, hashedPassword) => {
+    this.encryptPassword(this.password, function(encryptErr, hashedPassword){
       if (encryptErr) {
         return next(encryptErr);
       }
@@ -123,7 +123,7 @@ UserSchema.methods = {
       return this.password === this.encryptPassword(password);
     }
 
-    this.encryptPassword(password, (err, pwdGen) => {
+    this.encryptPassword(password, function(err, pwdGen) {
       if (err) {
         return callback(err);
       }
@@ -162,7 +162,7 @@ UserSchema.methods = {
       byteSize = defaultByteSize;
     }
 
-    return crypto.randomBytes(byteSize, (err, salt) => {
+    return crypto.randomBytes(byteSize, function(err, salt) {
       if (err) {
         return callback(err);
       } else {
@@ -197,7 +197,7 @@ UserSchema.methods = {
         .toString('base64');
     }
 
-    return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength, 'sha256', (err, key) => {
+    return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength, 'sha256', function(err, key) {
       if (err) {
         return callback(err);
       } else {
