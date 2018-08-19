@@ -1,9 +1,9 @@
-const errors = require('../components/errors');
+const errors = require('./components/errors');
 const path = require('path');
 
 module.exports = function routes(app, root) {
   // Add your custom routes here
-  app.use('/api/users', require('./users'));
+  app.use('/api/users', require('./api/users'));
 
   // Catching paths that are invalid and redirectin to 404 error
   app.route('/:url(api|auth|component|app|assets)/*').get(errors[404]);
