@@ -15,9 +15,10 @@ mongoose.connection.on('error', (err) => {
   process.exit(-1); // eslint-disable-line no-process-exit
 });
 
-// Get our API Routes
+// Get our API Routes from routes.js
 const routes = require('./server/routes');
 
+// Assign express variable
 const app = express();
 
 // Parser for POST data;
@@ -25,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Point to static path to dist
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set common routes
 app.set('views', `${__dirname}/server/views`);
